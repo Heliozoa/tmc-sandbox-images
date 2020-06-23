@@ -11,15 +11,17 @@ jobs:
           sudo systemctl reload docker
       - uses: actions/checkout@v1
       - name: Build Docker image
+        id: build_docker_image
         run: |
           cd tmc-langs-rust && bash build.sh
-          echo "::set-env name=RUST_CLI_NAME::${RUST_CLI_NAME}"
-          echo "::set-env name=RUST_CLI_VER::${RUST_CLI_VER}"
+          source ../env
+          echo ::set-output name=RUST_CLI_NAME::${RUST_CLI_NAME}
+          echo ::set-output name=RUST_CLI_VER::${RUST_CLI_VER}
       - uses: RafikFarhad/push-to-gcr-github-action@v1
         with:
           gcloud_service_key: ${{ secrets.GCLOUD_SERVICE_KEY }}
           registry: eu.gcr.io
-          project_name: tmc-langs-rust
-          image_name: ${{ env.RUST_CLI_NAME }}
-          image_tag: ${{ env.RUST_CLI_VER }}
+          project_name: moocfi
+          image_name: ${{ steps.build_docker_image.outputs.RUST_CLI_NAME }}
+          image_tag: ${{ steps.build_docker_image.outputs.RUST_CLI_VER }}
           dockerfile: ./tmc-langs-rust/Dockerfile
