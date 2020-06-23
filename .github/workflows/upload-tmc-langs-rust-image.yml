@@ -7,7 +7,7 @@ jobs:
     steps:
       - name: Enable Docker IPv6
         run: |
-          echo '{ "ipv6": true }' >> /etc/docker/daemon.json
+          sudo echo '{ "ipv6": true }' >> /etc/docker/daemon.json
           sudo systemctl reload docker
       - uses: actions/checkout@v1
       - name: Build Docker image
