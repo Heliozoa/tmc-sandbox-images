@@ -13,8 +13,8 @@ jobs:
       - name: Build Docker image
         id: build_docker_image
         run: |
-          cd tmc-langs-rust && bash build.sh
           source ./env
+          cd tmc-langs-rust && bash build.sh
           echo ::set-output name=RUST_CLI_NAME::${RUST_CLI_NAME}
           echo ::set-output name=RUST_CLI_VER::${RUST_CLI_VER}
       - uses: RafikFarhad/push-to-gcr-github-action@v1
