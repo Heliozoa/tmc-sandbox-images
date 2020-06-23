@@ -1,4 +1,7 @@
-on: [push]
+on:
+  create:
+    tags:
+      - "rust-v*"
 
 jobs:
   build_and_upload:
@@ -11,7 +14,6 @@ jobs:
           sudo systemctl reload docker
       - uses: actions/checkout@v1
       - name: Load env
-        id: load_env
         run: |
           source ./env
           echo ::set-env name=RUST_CLI_NAME::${RUST_CLI_NAME}
